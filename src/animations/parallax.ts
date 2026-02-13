@@ -18,8 +18,8 @@ export type ParallaxSpeed = keyof typeof parallaxSpeeds;
 // Calculate parallax transform value
 export function createParallaxTransform(
   scrollProgress: MotionValue<number>,
-  speed: number = 0.3,
-  direction: 'up' | 'down' = 'up',
+  _speed: number = 0.3,
+  _direction: 'up' | 'down' = 'up',
 ): MotionValue<number> {
   // This is used with useTransform in components
   // The actual implementation happens in the useParallax hook

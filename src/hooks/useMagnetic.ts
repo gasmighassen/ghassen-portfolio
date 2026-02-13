@@ -4,7 +4,7 @@
  */
 
 import { useRef, useState, useCallback } from 'react';
-import { useSpring, useMotionValue, useTransform } from 'framer-motion';
+import { useSpring, useMotionValue } from 'framer-motion';
 
 interface MagneticOptions {
   strength?: number;
@@ -13,7 +13,7 @@ interface MagneticOptions {
 }
 
 export function useMagnetic(options: MagneticOptions = {}) {
-  const { strength = 0.3, ease = 0.1, damping = 20 } = options;
+  const { strength = 0.3, ease: _ease = 0.1, damping = 20 } = options;
 
   const ref = useRef<HTMLElement>(null);
   const [isHovered, setIsHovered] = useState(false);

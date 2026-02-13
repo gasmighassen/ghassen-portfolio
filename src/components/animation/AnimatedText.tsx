@@ -3,7 +3,7 @@
  * Text reveal animations with character/word splitting
  */
 
-import { ReactNode, useMemo } from 'react';
+import { useMemo } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 

@@ -4,7 +4,7 @@
  */
 
 import { ReactNode } from 'react';
-import { motion, MotionProps } from 'framer-motion';
+import { motion, MotionProps, TargetAndTransition } from 'framer-motion';
 import { hoverLift, hoverScale, tapScale } from '@/animations/variants';
 import { colors, borderRadius, shadows } from '@/theme';
 
@@ -18,9 +18,9 @@ interface HoverCardProps extends MotionProps {
   onClick?: () => void;
 }
 
-const hoverEffects: Record<HoverEffect, object> = {
-  lift: hoverLift,
-  scale: hoverScale,
+const hoverEffects: Record<HoverEffect, TargetAndTransition> = {
+  lift: hoverLift as TargetAndTransition,
+  scale: hoverScale as TargetAndTransition,
   glow: {
     boxShadow: `0 0 30px ${colors.accent.main}40`,
     transition: { duration: 0.3 },
