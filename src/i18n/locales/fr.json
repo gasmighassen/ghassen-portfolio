@@ -1,0 +1,127 @@
+{
+  "hero": {
+    "intro": "Je suis <1>Ghassen Gasmi</1>, développeur fullstack et mobile.",
+    "welcome": "Bienvenue sur mon portfolio !",
+    "tagline1": "Créatif",
+    "tagline2": "Développeur",
+    "downloadResume": "Télécharger CV"
+  },
+  "nav": {
+    "projects": "Projets",
+    "about": "À propos",
+    "services": "Services",
+    "contact": "Contact",
+    "resume": "CV"
+  },
+  "projects": {
+    "title": "Projets",
+    "visitSite": "Voir le site",
+    "counter": "Projet",
+    "worldsoft": {
+      "subtitle": "Plateforme Voyage",
+      "category": "Plateforme de Réservation",
+      "description": "Réservation B2B/B2C avec intégration GDS, e-visa et systèmes d'authentification sécurisés."
+    },
+    "linxexpress": {
+      "subtitle": "Logistique",
+      "category": "Logistique à la Demande",
+      "description": "Plateforme de livraison complète — apps client, apps chauffeur, suivi en temps réel, VoIP, paiements."
+    },
+    "hztech": {
+      "subtitle": "Apps Mobiles",
+      "category": "Application Mobile",
+      "description": "Apps client et chauffeur avec GPS en temps réel, paiements Stripe et notifications push."
+    },
+    "erathis": {
+      "subtitle": "Entreprise",
+      "category": "Plateforme Entreprise",
+      "description": "Application web entreprise avec système de design et documentation complète."
+    }
+  },
+  "services": {
+    "label": "Services",
+    "title": "Services & Compétences",
+    "mobile": {
+      "title": "Développement Mobile",
+      "description": "Applications natives avec React Native pour iOS et Android."
+    },
+    "web": {
+      "title": "Développement Web",
+      "description": "Applications web modernes et responsives avec React et Angular."
+    },
+    "backend": {
+      "title": "Backend & APIs",
+      "description": "Systèmes backend scalables avec Node.js, PostgreSQL et WebSocket."
+    },
+    "devops": {
+      "title": "DevOps & Cloud",
+      "description": "Conteneurisation Docker, déploiement AWS et pipelines CI/CD."
+    },
+    "maps": {
+      "title": "Maps & Géolocalisation",
+      "description": "Suivi GPS en temps réel, géofencing et optimisation d'itinéraires."
+    },
+    "payments": {
+      "title": "Paiements & VoIP",
+      "description": "Intégration Stripe, passerelles de paiement et Agora voix/vidéo."
+    }
+  },
+  "about": {
+    "label": "À propos",
+    "title": "Le Parcours",
+    "whoIAm": "Qui je suis",
+    "intro": "Je suis <1>Belgacem Ghassen Gasmi</1>, développeur Full-Stack & Mobile basé à <2>Gabès, Tunisie</2>. Je transforme des idées complexes en applications élégantes et performantes.",
+    "experience": "Avec <1>plus de 3 ans d'expérience</1>, j'ai conçu des plateformes logistiques en temps réel et des systèmes de réservation internationaux. Mon expertise couvre <2>React, React Native, Angular, Node.js</2> et plus.",
+    "linxStory": "Chez Linxexpress, j'étais le <1>seul développeur</1> construisant tout un écosystème de livraison à la demande.",
+    "oneVision": "Une vision. Un architecte.",
+    "yearsExp": "Années d'expérience",
+    "projectsDelivered": "Projets livrés",
+    "companies": "Entreprises",
+    "careerPath": "Parcours Professionnel",
+    "beyondCode": "Au-delà du Code",
+    "beyondDesc": "Quand je ne code pas, j'explore le monde avec mon appareil photo. Voici quelques moments capturés.",
+    "timeline": {
+      "worldsoft": {
+        "role": "Développeur Front-End & Mobile",
+        "description": "Création de plateformes voyage et e-visa avec Angular et React Native. Intégration GDS pour réservation B2B/B2C."
+      },
+      "linxexpress": {
+        "role": "Développeur Full-Stack (Solo)",
+        "description": "Construction complète d'une plateforme logistique. Apps client, apps chauffeur, APIs backend, dashboards admin."
+      },
+      "hztech": {
+        "role": "Développeur Mobile",
+        "description": "Développement d'apps React Native avec suivi temps réel, paiements Stripe et notifications push."
+      },
+      "erathis": {
+        "role": "Développeur Front-End",
+        "description": "Création d'applications web entreprise avec React 18 et TypeScript. Systèmes de design et documentation."
+      }
+    }
+  },
+  "footer": {
+    "label": "Contact",
+    "title": "Construisons Ensemble",
+    "cta": "Vous avez un projet en tête ou souhaitez collaborer ? J'aimerais vous entendre.",
+    "getInTouch": "Me Contacter",
+    "backToTop": "Retour en haut",
+    "location": "Gabès, Tunisie"
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "ar": "العربية"
+  },
+  "gallery": {
+    "travel": "Voyage",
+    "hobby": "Loisir",
+    "photography": "Photographie",
+    "paris": "Paris, France",
+    "madrid": "Madrid, Espagne",
+    "toledo": "Tolède, Espagne",
+    "istanbul": "Istanbul, Turquie",
+    "camera": "Mon Appareil",
+    "mountains": "Paysages de Montagne",
+    "goldenHour": "Heure Dorée"
+  }
+}

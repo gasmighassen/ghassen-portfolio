@@ -1,0 +1,127 @@
+{
+  "hero": {
+    "intro": "I'm <1>Ghassen Gasmi</1>, a fullstack and mobile developer.",
+    "welcome": "Welcome to my portfolio!",
+    "tagline1": "Creative",
+    "tagline2": "Developer",
+    "downloadResume": "Download Resume"
+  },
+  "nav": {
+    "projects": "Projects",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact",
+    "resume": "Resume"
+  },
+  "projects": {
+    "title": "Projects",
+    "visitSite": "Visit Site",
+    "counter": "Project",
+    "worldsoft": {
+      "subtitle": "Travel Platform",
+      "category": "Travel Booking Platform",
+      "description": "B2B/B2C travel booking with GDS integration, e-visa applications, and secure authentication systems."
+    },
+    "linxexpress": {
+      "subtitle": "Logistics",
+      "category": "On-Demand Logistics",
+      "description": "Complete delivery platform built solo — customer apps, driver apps, real-time tracking, VoIP, payment systems."
+    },
+    "hztech": {
+      "subtitle": "Mobile Apps",
+      "category": "Mobile Application",
+      "description": "Customer & driver apps with real-time GPS tracking, Stripe payments, and push notifications."
+    },
+    "erathis": {
+      "subtitle": "Enterprise",
+      "category": "Enterprise Platform",
+      "description": "Enterprise web application with comprehensive design system and documentation."
+    }
+  },
+  "services": {
+    "label": "Services",
+    "title": "Services & Capabilities",
+    "mobile": {
+      "title": "Mobile Development",
+      "description": "Building native-quality apps with React Native for iOS and Android."
+    },
+    "web": {
+      "title": "Web Development",
+      "description": "Modern, responsive web applications with React and Angular."
+    },
+    "backend": {
+      "title": "Backend & APIs",
+      "description": "Scalable backend systems with Node.js, PostgreSQL, and WebSocket."
+    },
+    "devops": {
+      "title": "DevOps & Cloud",
+      "description": "Docker containerization, AWS deployment, and CI/CD pipelines."
+    },
+    "maps": {
+      "title": "Maps & Location",
+      "description": "Real-time GPS tracking, geofencing, and route optimization."
+    },
+    "payments": {
+      "title": "Payments & VoIP",
+      "description": "Stripe integration, payment gateways, and Agora voice/video."
+    }
+  },
+  "about": {
+    "label": "About Me",
+    "title": "The Journey",
+    "whoIAm": "Who I Am",
+    "intro": "I'm <1>Belgacem Ghassen Gasmi</1>, a Full-Stack & Mobile Developer based in <2>Gabès, Tunisia</2>. I transform complex ideas into elegant, performant applications.",
+    "experience": "With <1>3+ years of experience</1>, I've architected everything from real-time logistics platforms to international travel booking systems. My expertise spans <2>React, React Native, Angular, Node.js</2>, and beyond.",
+    "linxStory": "At Linxexpress, I was the <1>sole developer</1> building an entire on-demand delivery ecosystem.",
+    "oneVision": "One vision. One architect.",
+    "yearsExp": "Years Experience",
+    "projectsDelivered": "Projects Delivered",
+    "companies": "Companies",
+    "careerPath": "Career Path",
+    "beyondCode": "Beyond the Code",
+    "beyondDesc": "When I'm not coding, I'm exploring the world with my camera. Here are some moments I've captured.",
+    "timeline": {
+      "worldsoft": {
+        "role": "Front-End & Mobile Developer",
+        "description": "Building travel and e-visa platforms with Angular and React Native. Integrated GDS systems for B2B/B2C booking."
+      },
+      "linxexpress": {
+        "role": "Full-Stack Developer (Solo)",
+        "description": "Built complete on-demand logistics platform single-handedly. Customer apps, driver apps, backend APIs, admin dashboards."
+      },
+      "hztech": {
+        "role": "Mobile Developer",
+        "description": "Developed React Native apps with real-time tracking, Stripe payments, and push notifications."
+      },
+      "erathis": {
+        "role": "Front-End Developer",
+        "description": "Created enterprise web applications with React 18 and TypeScript. Built design systems and documentation."
+      }
+    }
+  },
+  "footer": {
+    "label": "Contact",
+    "title": "Let's Build",
+    "cta": "Have a project in mind or want to collaborate? I'd love to hear from you.",
+    "getInTouch": "Get in Touch",
+    "backToTop": "Back to Top",
+    "location": "Gabès, Tunisia"
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "ar": "العربية"
+  },
+  "gallery": {
+    "travel": "Travel",
+    "hobby": "Hobby",
+    "photography": "Photography",
+    "paris": "Paris, France",
+    "madrid": "Madrid, Spain",
+    "toledo": "Toledo, Spain",
+    "istanbul": "Istanbul, Turkey",
+    "camera": "My Camera",
+    "mountains": "Mountain Landscapes",
+    "goldenHour": "Golden Hour"
+  }
+}
