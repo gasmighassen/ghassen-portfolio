@@ -29,13 +29,20 @@ export function Footer() {
   return (
     <footer
       id='contact'
+      className='footer-section'
       style={{
         background: 'var(--color-dark)',
-        padding: '8rem 5% 3rem',
+        padding: '6rem 5% 2rem',
         position: 'relative',
+        zIndex: 10,
+        display: 'grid',
+        gridTemplateColumns: '1fr 2fr',
       }}
     >
-      <div className='container'>
+      {/* Empty left third for grid alignment */}
+      <div className='footer-spacer' />
+
+      <div className='footer-content'>
         {/* Section header - matching About section style */}
         <Reveal variant='fadeUp'>
           <div className='section-header' style={{ marginBottom: '4rem' }}>
@@ -45,14 +52,14 @@ export function Footer() {
         </Reveal>
 
         {/* Main CTA */}
-        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+        <div style={{ textAlign: 'left', marginBottom: '5rem' }}>
           <Reveal variant='fadeUp' delay={0.1}>
             <p
               style={{
-                fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+                fontSize: 'clamp(1rem, 2vw, 1.35rem)',
                 color: 'var(--color-neutral)',
                 maxWidth: '500px',
-                margin: '0 auto 2.5rem',
+                margin: '0 0 2.5rem',
                 lineHeight: 1.7,
               }}
             >
@@ -61,43 +68,59 @@ export function Footer() {
           </Reveal>
 
           <Reveal variant='fadeUp' delay={0.2}>
-            <motion.a
-              href='mailto:gasmi.ghassen@gmail.com'
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '1rem',
-                fontSize: 'clamp(1rem, 2vw, 1.25rem)',
-                padding: '1rem 2.5rem',
-                background: 'var(--color-accent)',
-                color: 'var(--color-dark)',
-                borderRadius: '100px',
-                fontWeight: 600,
-                transition: 'all 0.4s var(--ease-out-expo)',
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span>{t('footer.getInTouch')}</span>
-              <motion.span
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              <motion.a
+                href='mailto:gasmi.ghassen@gmail.com'
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+                  padding: '1rem 2.5rem',
+                  background: 'var(--color-accent)',
+                  color: 'var(--color-dark)',
+                  borderRadius: '100px',
+                  fontWeight: 600,
+                  transition: 'all 0.4s var(--ease-out-expo)',
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
               >
-                →
-              </motion.span>
-            </motion.a>
-          </Reveal>
+                <span>{t('footer.getInTouch')}</span>
+                <motion.span
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  →
+                </motion.span>
+              </motion.a>
 
-          <Reveal variant='fadeUp' delay={0.3}>
-            <p
-              style={{
-                marginTop: '1.5rem',
-                color: 'var(--color-neutral)',
-                fontSize: '0.95rem',
-              }}
-            >
-              gasmi.ghassen@gmail.com
-            </p>
+              <motion.a
+                href='/Belgacem-ghassen-gasmi-cv-fullstack-js.pdf'
+                download
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+                  padding: '1rem 2.5rem',
+                  background: 'transparent',
+                  color: 'var(--color-accent)',
+                  border: '1px solid var(--color-accent)',
+                  borderRadius: '100px',
+                  fontWeight: 600,
+                  transition: 'all 0.4s var(--ease-out-expo)',
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  background: 'rgba(255,255,255,0.05)',
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>{t('footer.downloadResume')}</span>
+                <span>↓</span>
+              </motion.a>
+            </div>
           </Reveal>
         </div>
 
@@ -105,7 +128,7 @@ export function Footer() {
         <motion.div
           style={{
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             gap: '2.5rem',
             marginBottom: '3rem',
           }}
@@ -142,7 +165,7 @@ export function Footer() {
           <div
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               gap: '2rem',
               marginBottom: '4rem',
             }}
@@ -221,6 +244,35 @@ export function Footer() {
           </motion.button>
         </div>
       </div>
+
+      {/* Mobile responsive styles */}
+      <style>{`
+        @media (max-width: 768px) {
+          .footer-section {
+            display: block !important;
+            text-align: center;
+          }
+          .footer-spacer {
+            display: none;
+          }
+          .footer-content {
+            text-align: center;
+          }
+          .footer-content .section-header {
+            text-align: center;
+          }
+          .footer-content > div {
+            text-align: center !important;
+          }
+          .footer-content p {
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+          .footer-content > div > div {
+            justify-content: center !important;
+          }
+        }
+      `}</style>
     </footer>
   );
 }

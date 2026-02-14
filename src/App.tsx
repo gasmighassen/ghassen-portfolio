@@ -5,23 +5,16 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Header,
-  Hero,
-  Projects,
-  About,
-  Services,
-  Footer,
-  Loader,
-} from '@/components';
-import { ScrollLines } from '@/components/ScrollLines';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Header, Footer, Loader } from '@/components';
+import { Home, AboutPage } from '@/pages';
 import './styles/global.css';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <>
+    <BrowserRouter>
       {/* Loading screen */}
       <Loader onComplete={() => setIsLoaded(true)} />
 
@@ -33,19 +26,18 @@ function App() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <ScrollLines />
             <Header />
-            <main>
-              <Hero />
-              <Projects />
-              <Services />
-              <About />
+            <main style={{ minHeight: '100vh' }}>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/about' element={<AboutPage />} />
+              </Routes>
             </main>
             <Footer />
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </BrowserRouter>
   );
 }
 

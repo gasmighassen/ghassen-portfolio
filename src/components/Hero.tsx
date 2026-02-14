@@ -8,10 +8,12 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export function Hero() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const containerRef = useRef<HTMLElement>(null);
   const [isHoveredFirst, setIsHoveredFirst] = useState(false);
   const [isHoveredSecond, setIsHoveredSecond] = useState(false);
+
+  const isFrench = i18n.language === 'fr';
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -28,82 +30,40 @@ export function Hero() {
       style={{
         position: 'relative',
         minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
+        display: 'grid',
+        gridTemplateColumns: '1fr 2fr',
         alignItems: 'center',
         padding: '0 5%',
         overflow: 'hidden',
         background: 'var(--color-dark)',
       }}
     >
-      {/* Main hero content */}
+      {/* Empty left third */}
+      <div />
+
+      {/* Main hero content - right half (starts from middle) */}
       <motion.div
         style={{
-          textAlign: 'center',
+          textAlign: 'left',
           y,
           opacity,
-          maxWidth: '1200px',
         }}
       >
-        {/* Intro text */}
-        <motion.p
-          style={{
-            fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
-            fontFamily: 'var(--font-body)',
-            fontWeight: 300,
-            lineHeight: 1.6,
-            color: 'var(--color-neutral)',
-            marginBottom: '1rem',
-          }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {
-            t('hero.intro', {
-              defaultValue:
-                "I'm Ghassen Gasmi, a fullstack and mobile developer.",
-            }).split('<1>')[0]
-          }
-          <span style={{ color: 'var(--color-light)', fontWeight: 400 }}>
-            Ghassen Gasmi
-          </span>
-          {t('hero.intro', {
-            defaultValue:
-              "I'm Ghassen Gasmi, a fullstack and mobile developer.",
-          }).split('</1>')[1] || ', a fullstack and mobile developer.'}
-        </motion.p>
-
-        <motion.p
-          style={{
-            fontSize: 'clamp(1rem, 1.8vw, 1.3rem)',
-            fontFamily: 'var(--font-body)',
-            fontWeight: 300,
-            lineHeight: 1.6,
-            color: 'var(--color-neutral)',
-            marginBottom: '3rem',
-          }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {t('hero.welcome')}
-        </motion.p>
-
         {/* Large styled tagline */}
         <motion.h1
           style={{
-            fontSize: 'clamp(3.5rem, 12vw, 12rem)',
+            fontSize: isFrench
+              ? 'clamp(2rem, 6vw, 6rem)'
+              : 'clamp(2.5rem, 8vw, 8rem)',
             fontWeight: 400,
-            fontFamily: "'Yatra One', cursive",
+            fontFamily: 'var(--font-heading)',
             lineHeight: 0.9,
             margin: 0,
             color: 'var(--color-light)',
             cursor: 'default',
-            transition: 'text-shadow 0.3s ease',
+            transition: 'text-shadow 0.3s ease, font-size 0.3s ease',
             textShadow: isHoveredFirst
-              ? '0 0 0 #E1D9BC, 2px 2px 0 #E1D9BC, 4px 4px 0 #E1D9BC, 6px 6px 0 #E1D9BC, 8px 8px 0 #E1D9BC'
+              ? '0 0 0 #ccc, 2px 2px 0 #ccc, 4px 4px 0 #ccc, 6px 6px 0 #ccc, 8px 8px 0 #ccc'
               : 'none',
           }}
           initial={{ opacity: 0, y: 50 }}
@@ -117,16 +77,19 @@ export function Hero() {
 
         <motion.h1
           style={{
-            fontSize: 'clamp(3.5rem, 12vw, 12rem)',
+            fontSize: isFrench
+              ? 'clamp(2rem, 6vw, 6rem)'
+              : 'clamp(2.5rem, 8vw, 8rem)',
             fontWeight: 400,
-            fontFamily: "'Yatra One', cursive",
+            fontFamily: 'var(--font-heading)',
             lineHeight: 0.9,
             margin: 0,
-            color: 'var(--color-accent)',
+            marginBottom: '4rem',
+            color: 'var(--color-neutral)',
             cursor: 'default',
-            transition: 'text-shadow 0.3s ease',
+            transition: 'text-shadow 0.3s ease, font-size 0.3s ease',
             textShadow: isHoveredSecond
-              ? '0 0 0 #ACBAC4, 2px 2px 0 #ACBAC4, 4px 4px 0 #ACBAC4, 6px 6px 0 #ACBAC4, 8px 8px 0 #ACBAC4'
+              ? '0 0 0 #999, 2px 2px 0 #999, 4px 4px 0 #999, 6px 6px 0 #999, 8px 8px 0 #999'
               : 'none',
           }}
           initial={{ opacity: 0, y: 50 }}
@@ -138,51 +101,39 @@ export function Hero() {
           {t('hero.tagline2')}
         </motion.h1>
 
-        {/* Download Resume Button */}
-        <motion.a
-          href='/Belgacem-ghassen-gasmi-cv-fullstack-js.pdf'
-          download='Belgacem-ghassen-gasmi-cv-fullstack-js.pdf'
+        {/* Intro text - under the taglines */}
+        <motion.p
           style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            marginTop: '2.5rem',
-            padding: '1rem 2rem',
-            background: 'transparent',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            borderRadius: '50px',
-            color: 'var(--color-light)',
-            fontSize: '0.85rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.15em',
-            textDecoration: 'none',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
+            fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
+            fontFamily: 'var(--font-body)',
+            fontWeight: 300,
+            lineHeight: 1.6,
+            color: 'var(--color-neutral)',
+            marginBottom: '0.5rem',
+            textAlign: 'left',
           }}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          whileHover={{
-            background: 'rgba(255, 255, 255, 0.1)',
-            borderColor: 'rgba(255, 255, 255, 0.4)',
-          }}
+          transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <svg
-            width='16'
-            height='16'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          >
-            <path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4' />
-            <polyline points='7 10 12 15 17 10' />
-            <line x1='12' y1='15' x2='12' y2='3' />
-          </svg>
-          {t('hero.downloadResume')}
-        </motion.a>
+          {t('hero.intro')}
+        </motion.p>
+
+        <motion.p
+          style={{
+            fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
+            fontFamily: 'var(--font-body)',
+            fontWeight: 300,
+            lineHeight: 1.6,
+            color: 'var(--color-neutral)',
+            textAlign: 'left',
+          }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {t('hero.welcome')}
+        </motion.p>
       </motion.div>
 
       {/* Scroll indicator */}
@@ -190,8 +141,8 @@ export function Hero() {
         style={{
           position: 'absolute',
           bottom: '3rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
+          right: '5%',
+          zIndex: 50,
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -199,15 +150,36 @@ export function Hero() {
       >
         <motion.div
           style={{
-            width: '1px',
-            height: '50px',
-            background:
-              'linear-gradient(to bottom, var(--color-neutral), transparent)',
+            width: '4px',
+            height: '60px',
+            background: '#0a0a0a',
+            borderRadius: '2px',
+            transformOrigin: 'top',
           }}
           animate={{ scaleY: [1, 0.5, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
       </motion.div>
+
+      {/* Mobile styles */}
+      <style>{`
+        @media (max-width: 768px) {
+          #hero {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+          #hero > div:first-child {
+            display: none !important;
+          }
+          #hero h1,
+          #hero p {
+            text-align: center !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

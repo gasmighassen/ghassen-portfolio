@@ -25,7 +25,7 @@ export function ScrollLines() {
         width: '100vw',
         height: '100vh',
         pointerEvents: 'none',
-        zIndex: 1,
+        zIndex: 5,
         overflow: 'hidden',
         opacity: opacity,
       }}
@@ -43,16 +43,20 @@ export function ScrollLines() {
           height: '100%',
         }}
       >
-        {/* Single smooth flowing line from right side */}
+        {/* Flowing line: starts in left white space, transitions to far right at About section */}
         <motion.path
-          d='M 95 0
-             C 90 8, 85 12, 80 18
-             C 72 26, 78 35, 70 45
-             C 62 55, 72 62, 65 72
-             C 58 82, 68 90, 60 100'
+          d='M 25 0
+             C 30 3, 35 5, 38 8
+             C 42 12, 35 15, 30 18
+             C 22 22, 28 26, 35 30
+             C 45 35, 55 38, 65 42
+             C 78 47, 88 52, 92 58
+             C 95 65, 92 72, 94 78
+             C 96 84, 93 90, 95 96
+             L 95 100'
           fill='none'
-          stroke='rgba(255, 255, 255, 0.4)'
-          strokeWidth='0.1'
+          stroke='rgba(0, 0, 0, 0.6)'
+          strokeWidth='0.3'
           strokeLinecap='round'
           strokeLinejoin='round'
           style={{

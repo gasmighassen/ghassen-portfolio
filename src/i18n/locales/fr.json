@@ -1,9 +1,9 @@
 {
   "hero": {
-    "intro": "Je suis <1>Ghassen Gasmi</1>, développeur fullstack et mobile.",
+    "intro": "Je suis Ghassen Gasmi, développeur fullstack et mobile.",
     "welcome": "Bienvenue sur mon portfolio !",
-    "tagline1": "Créatif",
-    "tagline2": "Développeur",
+    "tagline1": "Développeur",
+    "tagline2": "Créatif",
     "downloadResume": "Télécharger CV"
   },
   "nav": {
@@ -11,7 +11,8 @@
     "about": "À propos",
     "services": "Services",
     "contact": "Contact",
-    "resume": "CV"
+    "resume": "CV",
+    "hire": "M'engager"
   },
   "projects": {
     "title": "Projets",
@@ -41,6 +42,7 @@
   "services": {
     "label": "Services",
     "title": "Services & Compétences",
+    "description": "Créer des expériences digitales qui transforment les idées en réalité. Des applications mobiles à l'infrastructure cloud, je crée des solutions qui font la différence.",
     "mobile": {
       "title": "Développement Mobile",
       "description": "Applications natives avec React Native pour iOS et Android."
@@ -70,9 +72,9 @@
     "label": "À propos",
     "title": "Le Parcours",
     "whoIAm": "Qui je suis",
-    "intro": "Je suis <1>Belgacem Ghassen Gasmi</1>, développeur Full-Stack & Mobile basé à <2>Gabès, Tunisie</2>. Je transforme des idées complexes en applications élégantes et performantes.",
-    "experience": "Avec <1>plus de 3 ans d'expérience</1>, j'ai conçu des plateformes logistiques en temps réel et des systèmes de réservation internationaux. Mon expertise couvre <2>React, React Native, Angular, Node.js</2> et plus.",
-    "linxStory": "Chez Linxexpress, j'étais le <1>seul développeur</1> construisant tout un écosystème de livraison à la demande.",
+    "intro": "Je suis Belgacem Ghassen Gasmi, développeur Full-Stack & Mobile basé à Gabès, Tunisie. Je transforme des idées complexes en applications élégantes et performantes.",
+    "experience": "Avec plus de 3 ans d'expérience, j'ai conçu des plateformes logistiques en temps réel et des systèmes de réservation internationaux. Mon expertise couvre React, React Native, Angular, Node.js et plus.",
+    "linxStory": "Chez Linxexpress, j'étais le seul développeur construisant tout un écosystème de livraison à la demande.",
     "oneVision": "Une vision. Un architecte.",
     "yearsExp": "Années d'expérience",
     "projectsDelivered": "Projets livrés",
@@ -104,6 +106,7 @@
     "title": "Construisons Ensemble",
     "cta": "Vous avez un projet en tête ou souhaitez collaborer ? J'aimerais vous entendre.",
     "getInTouch": "Me Contacter",
+    "downloadResume": "Télécharger CV",
     "backToTop": "Retour en haut",
     "location": "Gabès, Tunisie"
   },

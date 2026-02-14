@@ -4,36 +4,36 @@
  */
 
 export const colors = {
-  // Primary palette
+  // Primary palette - White
   primary: {
-    dark: '#30364F',
-    main: '#30364F',
+    dark: '#ffffff',
+    main: '#ffffff',
   },
 
-  // Secondary palette
+  // Secondary palette - Gray
   secondary: {
-    neutral: '#ACBAC4',
-    main: '#ACBAC4',
+    neutral: '#6b6b6b',
+    main: '#6b6b6b',
   },
 
-  // Accent
+  // Accent - Black
   accent: {
-    main: '#E1D9BC',
-    light: '#E8E2CA',
+    main: '#0a0a0a',
+    light: '#1a1a1a',
   },
 
   // Background
   background: {
-    light: '#F0F0DB',
-    main: '#F0F0DB',
-    paper: '#FFFFFF',
+    light: '#ffffff',
+    main: '#ffffff',
+    paper: '#f0f0f0',
   },
 
   // Text colors derived from palette
   text: {
-    primary: '#30364F',
-    secondary: '#ACBAC4',
-    light: '#F0F0DB',
+    primary: '#0a0a0a',
+    secondary: '#6b6b6b',
+    light: '#0a0a0a',
   },
 } as const;
 

@@ -1,12 +1,20 @@
 /**
  * Services Section
- * Perfectly centered symmetric arc carousel
+ * Microsoft AI-inspired immersive scroll-driven depth animation
+ * Images emerge from depth one by one as user scrolls through the section
  */
 
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  MotionValue,
+} from 'framer-motion';
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+// Original services data
 const services = [
   {
     id: 1,
@@ -46,305 +54,193 @@ const services = [
   },
 ];
 
-const CARD_WIDTH = 340;
-const CARD_HEIGHT = 420;
-const CARD_GAP = 60;
-const ARC_RADIUS = 1000;
-const ARC_HEIGHT = 80; // Max vertical displacement
+// Image positions around the central text (closer to center but avoiding middle area)
+const imagePositions = [
+  { x: '18%', y: '8%', width: 260, height: 320 }, // Top left
+  { x: '62%', y: '5%', width: 240, height: 200 }, // Top right
+  { x: '16%', y: '55%', width: 240, height: 300 }, // Bottom left
+  { x: '60%', y: '52%', width: 250, height: 320 }, // Bottom right
+  { x: '22%', y: '28%', width: 220, height: 270 }, // Mid left
+  { x: '58%', y: '26%', width: 230, height: 280 }, // Mid right
+];
+
+// Height multiplier for scroll distance (more height = slower animation)
+const SCROLL_MULTIPLIER = 6;
 
 export function Services() {
   const { t } = useTranslation();
-  const x = useMotionValue(0);
-  const [activeIndex, setActiveIndex] = useState(
-    Math.floor(services.length / 2),
-  ); // Start from middle
-  const [isDragging, setIsDragging] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(
-    typeof window !== 'undefined' ? window.innerWidth : 1200,
-  );
-  const constraintsRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // Track scroll progress through the tall section
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
+  });
 
-  // Calculate center offset to position middle card at center
-  const middleIndex = Math.floor(services.length / 2);
-  const cardStep = CARD_WIDTH + CARD_GAP;
-  const initialOffset = -middleIndex * cardStep; // Start with middle card centered
-
-  useEffect(() => {
-    // Initialize to center card
-    x.set(initialOffset);
-    setActiveIndex(middleIndex);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    const currentX = x.get();
-    // Calculate which card should be centered
-    const offset = currentX - initialOffset;
-    const cardIndex = middleIndex - Math.round(offset / cardStep);
-    const clampedIndex = Math.max(0, Math.min(cardIndex, services.length - 1));
-    setActiveIndex(clampedIndex);
-
-    // Snap to card
-    const targetX = initialOffset - (clampedIndex - middleIndex) * cardStep;
-
-    animate(x, targetX, {
-      type: 'spring',
-      stiffness: 300,
-      damping: 30,
-    });
-  };
-
-  const goToCard = (index: number) => {
-    setActiveIndex(index);
-    const targetX = initialOffset - (index - middleIndex) * cardStep;
-    animate(x, targetX, {
-      type: 'spring',
-      stiffness: 300,
-      damping: 30,
-    });
-  };
-
-  // Calculate total drag bounds
-  const maxDrag = (services.length - 1 - middleIndex) * cardStep;
-  const minDrag = -middleIndex * cardStep;
+  // Smooth the scroll for cinematic feel
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    mass: 0.5,
+  });
 
   return (
     <section
       id='services'
+      ref={sectionRef}
       style={{
-        padding: '8rem 0',
-        background: '#1a1d2e',
-        overflow: 'hidden',
+        // Tall section creates scroll room for animation
+        height: `${100 * SCROLL_MULTIPLIER}vh`,
         position: 'relative',
-        zIndex: 3,
+        background: 'var(--color-dark-deeper)',
       }}
     >
-      {/* Section title */}
-      <h2
-        style={{
-          textAlign: 'center',
-          fontSize: 'clamp(2rem, 4vw, 3rem)',
-          fontFamily: 'var(--font-heading)',
-          fontWeight: 300,
-          color: 'var(--color-light)',
-          marginBottom: '4rem',
-          letterSpacing: '-0.02em',
-        }}
-      >
-        {t('services.title')}
-      </h2>
-
-      {/* Arc line SVG - perfectly centered */}
-      <svg
-        style={{
-          position: 'absolute',
-          top: '45%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '100%',
-          height: '400px',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-        viewBox={`0 0 ${windowWidth} 400`}
-        preserveAspectRatio='xMidYMid meet'
-      >
-        <path
-          d={`M 0 350 Q ${windowWidth / 2} ${350 - ARC_HEIGHT * 3} ${windowWidth} 350`}
-          fill='none'
-          stroke='rgba(255,255,255,0.06)'
-          strokeWidth='1'
-        />
-      </svg>
-
-      {/* Carousel container - centered */}
+      {/* Sticky viewport - stays in view while user scrolls through the tall section */}
       <div
-        ref={constraintsRef}
         style={{
-          position: 'relative',
-          height: `${CARD_HEIGHT + ARC_HEIGHT + 80}px`,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          cursor: isDragging ? 'grabbing' : 'grab',
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+          width: '100%',
+          overflow: 'hidden',
+          perspective: '1500px',
+          perspectiveOrigin: '50% 50%',
         }}
       >
-        <motion.div
+        {/* 3D Scene Container */}
+        <div
           style={{
-            position: 'absolute',
-            left: '50%',
-            marginLeft: `-${CARD_WIDTH / 2}px`,
-            display: 'flex',
-            gap: `${CARD_GAP}px`,
-            x,
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            transformStyle: 'preserve-3d',
           }}
-          drag='x'
-          dragConstraints={{
-            left: initialOffset + minDrag,
-            right: initialOffset + maxDrag,
-          }}
-          dragElastic={0.1}
-          onDragStart={() => setIsDragging(true)}
-          onDragEnd={handleDragEnd}
         >
+          {/* Floating Images - emerge from depth one by one */}
           {services.map((service, index) => (
-            <ArcCard
+            <DepthImage
               key={service.id}
               service={service}
               index={index}
-              dragX={x}
-              initialOffset={initialOffset}
-              middleIndex={middleIndex}
-              isActive={index === activeIndex}
+              total={services.length}
+              position={imagePositions[index]}
+              scrollProgress={smoothProgress}
               t={t}
             />
           ))}
-        </motion.div>
-      </div>
 
-      {/* Navigation dots */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '0.75rem',
-          marginTop: '2.5rem',
-        }}
-      >
-        {services.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToCard(index)}
-            style={{
-              width: index === activeIndex ? '28px' : '10px',
-              height: '10px',
-              borderRadius: '5px',
-              background:
-                index === activeIndex
-                  ? 'var(--color-accent)'
-                  : 'rgba(255,255,255,0.15)',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-            }}
-          />
-        ))}
+          {/* Central Text Content */}
+          <CentralContent scrollProgress={smoothProgress} t={t} />
+        </div>
       </div>
     </section>
   );
 }
 
-function ArcCard({
+/**
+ * Individual image that emerges from depth based on scroll position
+ */
+function DepthImage({
   service,
   index,
-  dragX,
-  initialOffset,
-  middleIndex,
-  isActive,
+  total,
+  position,
+  scrollProgress,
   t,
 }: {
   service: (typeof services)[0];
   index: number;
-  dragX: ReturnType<typeof useMotionValue<number>>;
-  initialOffset: number;
-  middleIndex: number;
-  isActive: boolean;
+  total: number;
+  position: { x: string; y: string; width: number; height: number };
+  scrollProgress: MotionValue<number>;
   t: (key: string) => string;
 }) {
-  const cardStep = CARD_WIDTH + CARD_GAP;
+  // Each image has its own animation window within the scroll progress
+  // They animate sequentially: image 0 starts first, image 5 starts last
+  const imageWindow = 0.6 / total; // Each image gets a portion of 60% of scroll (slower)
+  const startPoint = 0.08 + index * imageWindow; // Staggered start
+  const peakPoint = startPoint + imageWindow * 0.6; // Midpoint - fully visible (longer peak)
+  const endPoint = startPoint + imageWindow + 0.2; // End - exits forward (longer exit)
 
-  // Calculate distance from center of viewport (where center card should be)
-  const y = useTransform(dragX, (latestX: number) => {
-    // How far this card is from the center position
-    const cardOffset = (index - middleIndex) * cardStep;
-    const currentOffset = latestX - initialOffset;
-    const distanceFromCenter = cardOffset + currentOffset;
+  // Z-axis: starts far in background, comes forward, then passes the viewer
+  const z = useTransform(
+    scrollProgress,
+    [startPoint, peakPoint, endPoint, 1],
+    [-1500, 0, 400, 400],
+  );
 
-    // Symmetric arc using quadratic curve: y = (x/width)^2 * height
-    const normalizedDistance = distanceFromCenter / (ARC_RADIUS * 0.8);
-    const arcY = normalizedDistance * normalizedDistance * ARC_HEIGHT;
+  // Blur: sharp when close, blurry when far (depth of field effect)
+  const blur = useTransform(
+    scrollProgress,
+    [startPoint, startPoint + 0.08, peakPoint, endPoint],
+    [20, 4, 0, 0],
+  );
 
-    return arcY;
-  });
+  // Scale: small when far, normal at peak, larger when passing by
+  const scale = useTransform(
+    scrollProgress,
+    [startPoint, peakPoint, endPoint],
+    [0.3, 1, 1.5],
+  );
 
-  // Rotation - symmetric, cards tilt towards center
-  const rotateZ = useTransform(dragX, (latestX: number) => {
-    const cardOffset = (index - middleIndex) * cardStep;
-    const currentOffset = latestX - initialOffset;
-    const distanceFromCenter = cardOffset + currentOffset;
+  // Opacity: fade in, stay visible, fade out as it passes
+  const opacity = useTransform(
+    scrollProgress,
+    [startPoint, startPoint + 0.05, peakPoint, endPoint - 0.05, endPoint],
+    [0, 1, 1, 0.8, 0],
+  );
 
-    // Linear rotation based on distance from center
-    const maxRotation = 12; // degrees
-    const normalizedDistance = distanceFromCenter / (ARC_RADIUS * 0.5);
-    return Math.max(
-      -maxRotation,
-      Math.min(normalizedDistance * maxRotation, maxRotation),
-    );
-  });
+  // Rotation for dynamic perspective
+  const rotateY = useTransform(
+    scrollProgress,
+    [startPoint, peakPoint, endPoint],
+    [index % 2 === 0 ? -20 : 20, 0, index % 2 === 0 ? 10 : -10],
+  );
 
-  // Scale - center card is larger
-  const scale = useTransform(dragX, (latestX: number) => {
-    const cardOffset = (index - middleIndex) * cardStep;
-    const currentOffset = latestX - initialOffset;
-    const distanceFromCenter = Math.abs(cardOffset + currentOffset);
+  const rotateX = useTransform(
+    scrollProgress,
+    [startPoint, peakPoint, endPoint],
+    [15, 0, -8],
+  );
 
-    const normalizedDistance = Math.min(distanceFromCenter / (cardStep * 2), 1);
-    return 1 - normalizedDistance * 0.12;
-  });
-
-  // Opacity - fade edges symmetrically
-  const opacity = useTransform(dragX, (latestX: number) => {
-    const cardOffset = (index - middleIndex) * cardStep;
-    const currentOffset = latestX - initialOffset;
-    const distanceFromCenter = Math.abs(cardOffset + currentOffset);
-
-    const normalizedDistance = Math.min(
-      distanceFromCenter / (cardStep * 2.5),
-      1,
-    );
-    return 1 - normalizedDistance * 0.5;
-  });
+  // Slight horizontal drift as image approaches
+  const x = useTransform(
+    scrollProgress,
+    [startPoint, endPoint],
+    ['0%', index % 2 === 0 ? '-15%' : '15%'],
+  );
 
   return (
     <motion.div
       style={{
-        width: `${CARD_WIDTH}px`,
-        height: `${CARD_HEIGHT}px`,
-        flexShrink: 0,
-        y,
+        position: 'absolute',
+        left: position.x,
+        top: position.y,
+        width: position.width,
+        height: position.height,
+        z,
         scale,
         opacity,
-        rotateZ,
+        rotateY,
+        rotateX,
+        x,
+        filter: useTransform(blur, (b) => `blur(${b}px)`),
+        transformStyle: 'preserve-3d',
         transformOrigin: 'center center',
+        willChange: 'transform, opacity, filter',
+        pointerEvents: 'none',
       }}
     >
-      <motion.div
+      <div
         style={{
           width: '100%',
           height: '100%',
-          borderRadius: '20px',
+          borderRadius: '16px',
           overflow: 'hidden',
-          boxShadow: isActive
-            ? '0 30px 60px rgba(0,0,0,0.5)'
-            : '0 15px 30px rgba(0,0,0,0.3)',
-          border: isActive
-            ? '2px solid rgba(255,255,255,0.15)'
-            : '1px solid rgba(255,255,255,0.05)',
-          position: 'relative',
+          boxShadow: '0 30px 60px rgba(0, 0, 0, 0.4)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          background: 'var(--color-dark-mid)',
         }}
-        animate={{
-          boxShadow: isActive
-            ? '0 30px 60px rgba(0,0,0,0.5)'
-            : '0 15px 30px rgba(0,0,0,0.3)',
-        }}
-        transition={{ duration: 0.3 }}
       >
         <img
           src={service.image}
@@ -353,45 +249,161 @@ function ArcCard({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            display: 'block',
           }}
-          draggable={false}
+          loading='lazy'
         />
-        {/* Text overlay on card */}
+        {/* Service label overlay */}
         <div
           style={{
             position: 'absolute',
             bottom: 0,
             left: 0,
             right: 0,
-            padding: '2rem 1.5rem',
+            padding: '1.5rem',
             background:
-              'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, transparent 100%)',
+              'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)',
           }}
         >
-          <h4
+          <span
             style={{
-              fontSize: '1.25rem',
+              fontSize: '1rem',
               fontFamily: 'var(--font-heading)',
               fontWeight: 500,
               color: '#fff',
-              marginBottom: '0.5rem',
               letterSpacing: '-0.01em',
             }}
           >
             {t(`services.${service.key}.title`)}
-          </h4>
-          <p
-            style={{
-              fontSize: '0.875rem',
-              color: 'rgba(255,255,255,0.7)',
-              lineHeight: 1.5,
-              margin: 0,
-            }}
-          >
-            {t(`services.${service.key}.description`)}
-          </p>
+          </span>
         </div>
-      </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+/**
+ * Central text content (Microsoft AI style)
+ */
+function CentralContent({
+  scrollProgress,
+  t,
+}: {
+  scrollProgress: MotionValue<number>;
+  t: (key: string) => string;
+}) {
+  // Text fades in early and stays visible through most of the animation
+  const opacity = useTransform(
+    scrollProgress,
+    [0, 0.1, 0.85, 0.95],
+    [0, 1, 1, 0],
+  );
+
+  const y = useTransform(scrollProgress, [0, 0.1, 0.85, 0.95], [40, 0, 0, -30]);
+
+  const scale = useTransform(
+    scrollProgress,
+    [0, 0.1, 0.85, 0.95],
+    [0.96, 1, 1, 0.98],
+  );
+
+  return (
+    <motion.div
+      className='services-central'
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'grid',
+        gridTemplateColumns: '1fr 2fr',
+        alignItems: 'center',
+        padding: '0 5%',
+        opacity,
+        y,
+        scale,
+        zIndex: 100,
+      }}
+    >
+      {/* Empty left third for grid alignment */}
+      <div className='services-spacer' />
+
+      <div
+        className='services-content'
+        style={{
+          textAlign: 'left',
+        }}
+      >
+        {/* Section Label */}
+        <motion.span
+          style={{
+            display: 'block',
+            fontSize: 'clamp(0.7rem, 2vw, 0.875rem)',
+            fontFamily: 'var(--font-body)',
+            fontWeight: 500,
+            letterSpacing: '0.25em',
+            textTransform: 'uppercase',
+            color: 'var(--color-accent)',
+            marginBottom: '1rem',
+          }}
+        >
+          {t('services.label')}
+        </motion.span>
+
+        {/* Main Heading */}
+        <motion.h2
+          style={{
+            fontSize: 'clamp(1.25rem, 5vw, 2.25rem)',
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 400,
+            lineHeight: 1.3,
+            color: 'var(--color-light)',
+            marginBottom: '1.25rem',
+            letterSpacing: '-0.02em',
+            maxWidth: '100%',
+          }}
+        >
+          {t('services.title')}
+        </motion.h2>
+
+        {/* Description */}
+        <motion.p
+          style={{
+            fontSize: 'clamp(0.875rem, 3vw, 1.0625rem)',
+            fontFamily: 'var(--font-body)',
+            fontWeight: 300,
+            lineHeight: 1.7,
+            color: 'var(--color-neutral-light)',
+            marginBottom: '2rem',
+            maxWidth: '480px',
+          }}
+        >
+          {t('services.description')}
+        </motion.p>
+      </div>
+
+      {/* Mobile responsive styles */}
+      <style>{`
+        @media (max-width: 768px) {
+          .services-central {
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+          }
+          .services-spacer {
+            display: none;
+          }
+          .services-content {
+            text-align: center !important;
+          }
+          .services-content p {
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+        }
+      `}</style>
     </motion.div>
   );
 }

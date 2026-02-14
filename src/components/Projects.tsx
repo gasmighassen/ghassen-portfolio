@@ -12,53 +12,41 @@ import worldsoftImg from '@/assets/worldsoft/image-2026-02-10-14.15.02.jpeg';
 import linxImg from '@/assets/linx/linx-screenshot.png';
 import hztechImg from '@/assets/hztech/hztech-screenshot.png';
 
-// Project data based on CV
+// Project data based on CV - uses translation keys for i18n
 const projects = [
   {
     id: 1,
+    key: 'worldsoft',
     title: 'WorldSoft Group',
-    subtitle: 'Travel Platform',
-    category: 'TRAVEL BOOKING PLATFORM',
-    description:
-      'B2B/B2C travel booking with GDS integration, e-visa applications, and secure authentication systems.',
     tags: ['Angular', 'React Native', 'Node.js', 'GDS'],
-    color: '#E1D9BC',
+    color: '#6b6b6b',
     image: worldsoftImg,
     url: null,
   },
   {
     id: 2,
+    key: 'linxexpress',
     title: 'Linxexpress',
-    subtitle: 'Logistics',
-    category: 'ON-DEMAND LOGISTICS',
-    description:
-      'Complete delivery platform built solo — customer apps, driver apps, real-time tracking, VoIP, payment systems.',
     tags: ['React Native', 'React', 'PostgreSQL', 'WebSocket'],
-    color: '#ACBAC4',
+    color: '#9a9a9a',
     image: linxImg,
     url: 'https://linxexpress.tn',
   },
   {
     id: 3,
+    key: 'hztech',
     title: 'HZ Tech',
-    subtitle: 'Mobile Apps',
-    category: 'MOBILE APPLICATION',
-    description:
-      'Customer & driver apps with real-time GPS tracking, Stripe payments, and push notifications.',
     tags: ['React Native', 'Redux', 'Google Maps', 'Stripe'],
-    color: '#30364F',
+    color: '#4a4a4a',
     image: hztechImg,
     url: 'https://hezlidz.com',
   },
   {
     id: 4,
+    key: 'erathis',
     title: 'Erathis',
-    subtitle: 'Enterprise',
-    category: 'ENTERPRISE PLATFORM',
-    description:
-      'Enterprise web application with comprehensive design system and documentation.',
     tags: ['React 18', 'TypeScript', 'Design Systems'],
-    color: '#F0F0DB',
+    color: '#7a7a7a',
     image:
       'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
     url: null,
@@ -95,7 +83,7 @@ function AnimatedCounter({
       style={{
         position: 'sticky',
         top: '12%',
-        left: '4%',
+        left: '5%',
         zIndex: 100,
         pointerEvents: 'none',
         height: 0,
@@ -112,14 +100,15 @@ function AnimatedCounter({
           width: '110px',
           height: '110px',
           borderRadius: '50%',
-          border: '1px solid rgba(255,255,255,0.15)',
-          background: 'rgba(30, 35, 50, 0.9)',
+          border: '1px solid rgba(0,0,0,0.1)',
+          background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(10px)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '0.25rem',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
         }}
       >
         <span
@@ -142,7 +131,11 @@ function AnimatedCounter({
         >
           <motion.span
             key={displayValue}
-            style={{ fontSize: '1.1rem', fontWeight: 600 }}
+            style={{
+              fontSize: '1.1rem',
+              fontWeight: 600,
+              color: 'var(--color-light)',
+            }}
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.3 }}
@@ -161,7 +154,7 @@ function AnimatedCounter({
   );
 }
 
-// Individual Project Card - Now sticky
+// Individual Project Card - Clean minimal design
 function ProjectCard({
   project,
   index,
@@ -175,7 +168,7 @@ function ProjectCard({
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Calculate stacking offset - cards stop below navbar
-  const topOffset = 80; // px below top to stay under navbar
+  const topOffset = 60; // px below top to stay under navbar
 
   return (
     <div
@@ -188,330 +181,264 @@ function ProjectCard({
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',
-        width: '98%',
+        width: '90%',
+        maxWidth: '1400px',
         margin: '0 auto',
-        padding: '0.5rem 0',
+        padding: '0',
       }}
     >
       <motion.div
         ref={cardRef}
         className='project-card'
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         style={{
           position: 'relative',
           height: `calc(100vh - ${topOffset}px - 1rem)`,
           width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 'clamp(1.5rem, 4vw, 4rem) clamp(2rem, 5vw, 6rem)',
-          background: 'rgba(20, 25, 40, 0.85)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
           overflow: 'hidden',
-          borderRadius: 'clamp(16px, 2vw, 24px)',
+          borderRadius: '20px',
+          background: '#f8f8f8',
+          border: '1px solid rgba(0,0,0,0.08)',
+          display: 'flex',
         }}
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* Background image with blur - positioned on left */}
-        <div
-          className='project-blur-bg'
-          style={{
-            position: 'absolute',
-            top: '-50%',
-            left: '-20%',
-            width: '70%',
-            height: '150%',
-            backgroundImage: `url(${project.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'blur(80px)',
-            opacity: 0.4,
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Dark overlay for readability */}
-        <div
-          className='project-dark-overlay'
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background:
-              'linear-gradient(90deg, rgba(30, 35, 50, 0.5) 0%, rgba(30, 35, 50, 0.85) 50%, rgba(30, 35, 50, 0.95) 100%)',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Gradient overlay from project color */}
-        <div
-          className='project-gradient-overlay'
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: `radial-gradient(circle at 70% 50%, ${project.color}20 0%, transparent 60%)`,
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Top edge highlight */}
-        <div
-          className='project-top-highlight'
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: '24px',
-            right: '24px',
-            height: '1px',
-            background: `linear-gradient(90deg, transparent 0%, ${project.color}60 50%, transparent 100%)`,
-            borderRadius: '24px 24px 0 0',
-          }}
-        />
-
-        {/* Main content */}
+        {/* Left: Content Section */}
         <div
           className='project-content'
           style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gridTemplateRows: 'auto 1fr',
-            alignItems: 'start',
-            width: '100%',
-            height: '100%',
+            flex: '1',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            padding: 'clamp(1.5rem, 4vw, 3rem)',
             position: 'relative',
-            zIndex: 1,
+            zIndex: 2,
           }}
         >
-          {/* Left: Title and description - positioned at bottom */}
-          <motion.div
-            className='project-title-section'
+          {/* Category */}
+          <motion.span
             style={{
-              alignSelf: 'end',
-              paddingLeft: 'clamp(1rem, 3vw, 3rem)',
-              paddingBottom: 'clamp(2rem, 4vw, 4rem)',
-              gridRow: '1 / 3',
+              fontSize: 'clamp(0.65rem, 1.2vw, 0.75rem)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.15em',
+              color: '#666',
+              marginBottom: '1rem',
             }}
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            {t(`projects.${project.key}.category`)}
+          </motion.span>
+
+          {/* Title */}
+          <motion.h2
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 400,
+              lineHeight: 1.05,
+              marginBottom: '1.5rem',
+              letterSpacing: '-0.03em',
+              color: '#0a0a0a',
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            {project.title}
+          </motion.h2>
+
+          {/* Description */}
+          <motion.p
+            style={{
+              fontSize: 'clamp(0.85rem, 1.3vw, 1rem)',
+              color: '#555',
+              lineHeight: 1.75,
+              maxWidth: '500px',
+            }}
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.35, duration: 0.5 }}
+          >
+            {t(`projects.${project.key}.description`)}
+          </motion.p>
+        </div>
+
+        {/* Right: Image + Tags + CTA Section */}
+        <div
+          className='project-right-section'
+          style={{
+            flex: '0 0 45%',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          {/* Image - Fixed height */}
+          <motion.div
+            className='project-image-section'
+            style={{
+              flex: '1 1 auto',
+              minHeight: 0,
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#ececec',
+              overflow: 'hidden',
+            }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <motion.h2
+            <motion.img
+              src={project.image}
+              alt={project.title}
               style={{
-                fontSize: 'clamp(2rem, 5vw, 4.5rem)',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 300,
-                lineHeight: 1.1,
-                marginBottom: '1rem',
-                fontStyle: 'italic',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                width: 'auto',
+                height: 'auto',
+                objectFit: 'contain',
               }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-            >
-              {project.title}
-              <br />
-              {project.subtitle}
-            </motion.h2>
+              animate={{ scale: isHovered ? 1.03 : 1 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </motion.div>
 
-            <motion.p
+          {/* Tags + CTA under image - Fixed height */}
+          <motion.div
+            className='project-footer'
+            style={{
+              flex: '0 0 auto',
+              padding: 'clamp(1rem, 2vw, 1.25rem)',
+              background: '#f0f0f0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1rem',
+              flexWrap: 'wrap',
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
+            {/* Tags */}
+            <div
               style={{
-                fontSize: 'clamp(0.9rem, 1vw, 1rem)',
-                color: 'rgba(255, 255, 255, 0.65)',
-                lineHeight: 1.8,
-                maxWidth: '450px',
-                marginBottom: '1.5rem',
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '0.4rem',
+                flex: '1 1 auto',
               }}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.6 }}
             >
-              {project.description}
-            </motion.p>
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  style={{
+                    fontSize: 'clamp(0.6rem, 0.9vw, 0.7rem)',
+                    color: '#666',
+                    padding: '0.35rem 0.7rem',
+                    background: 'rgba(0,0,0,0.06)',
+                    borderRadius: '100px',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
 
-            {/* Visit button with parentheses like screenshot */}
+            {/* CTA Button */}
             {project.url && (
               <motion.a
                 href={project.url}
                 target='_blank'
                 rel='noopener noreferrer'
+                className='project-cta'
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   gap: '0.5rem',
-                  padding: '0',
-                  background: 'transparent',
-                  border: 'none',
-                  color: 'var(--color-light)',
-                  fontSize: '0.8rem',
+                  padding: '0.7rem 1.25rem',
+                  background: '#0a0a0a',
+                  color: '#fff',
+                  borderRadius: '100px',
+                  fontSize: 'clamp(0.65rem, 1vw, 0.75rem)',
                   textTransform: 'uppercase',
-                  letterSpacing: '0.15em',
+                  letterSpacing: '0.08em',
                   cursor: 'pointer',
                   textDecoration: 'none',
+                  fontWeight: 500,
+                  whiteSpace: 'nowrap',
+                  flex: '0 0 auto',
                 }}
-                whileHover={{ opacity: 0.7 }}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                whileHover={{ scale: 1.03, gap: '0.75rem' }}
+                whileTap={{ scale: 0.98 }}
               >
-                <span style={{ fontSize: '1.2rem', fontWeight: 200 }}>(</span>
-                <span
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                  }}
-                >
-                  {t('projects.visitSite').toUpperCase()}
-                  <motion.span
-                    animate={{ x: isHovered ? 3 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    ↗
-                  </motion.span>
-                </span>
-                <span style={{ fontSize: '1.2rem', fontWeight: 200 }}>)</span>
+                {t('projects.visitSite')}
+                <span>→</span>
               </motion.a>
             )}
           </motion.div>
+        </div>
 
-          {/* Right top: Category + Tags */}
-          <motion.div
-            className='project-tags-section'
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              paddingTop: 'clamp(1.5rem, 3vw, 3rem)',
-              paddingRight: 'clamp(1rem, 3vw, 3rem)',
-            }}
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {/* Category label */}
-            <motion.span
-              style={{
-                fontSize: '0.75rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.2em',
-                color: 'rgba(255, 255, 255, 0.9)',
-                marginBottom: '0.75rem',
-              }}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              {project.category}
-            </motion.span>
-
-            {/* Separator line */}
-            <motion.div
-              style={{
-                width: '100%',
-                height: '1px',
-                background: 'rgba(255, 255, 255, 0.2)',
-                marginBottom: '0.75rem',
-              }}
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                delay: 0.5,
-                duration: 0.6,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            />
-
-            {/* Stack tags with dots */}
-            <motion.div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                flexWrap: 'wrap',
-              }}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.55, duration: 0.5 }}
-            >
-              {project.tags.map((tag, i) => (
-                <span
-                  key={tag}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    fontSize: '0.8rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
-                    color: 'rgba(255, 255, 255, 0.7)',
-                  }}
-                >
-                  {tag}
-                  {i < project.tags.length - 1 && (
-                    <span style={{ color: 'rgba(255, 255, 255, 0.4)' }}>•</span>
-                  )}
-                </span>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* Right bottom: Project image - positioned at absolute bottom */}
-          <motion.div
-            className='project-image-container'
-            style={{
-              position: 'absolute',
-              bottom: 'clamp(1.5rem, 3vw, 3rem)',
-              right: 'clamp(2rem, 4vw, 5rem)',
-              zIndex: 2,
-            }}
-            initial={{ opacity: 0, x: 50, y: 30 }}
-            whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <motion.div
-              style={{
-                position: 'relative',
-                width: 'clamp(280px, 35vw, 480px)',
-                aspectRatio: '16/10',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                boxShadow: '0 25px 70px rgba(0,0,0,0.5)',
-              }}
-              whileHover={{ scale: 1.02, y: -5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <img
-                src={project.image}
-                alt={project.title}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                  backgroundColor: 'rgba(0,0,0,0.3)',
-                }}
-              />
-              {/* Subtle gradient overlay */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background:
-                    'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%)',
-                  pointerEvents: 'none',
-                }}
-              />
-            </motion.div>
-          </motion.div>
+        {/* Decorative number */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 'clamp(1rem, 3vw, 2rem)',
+            right: 'clamp(1.5rem, 4vw, 3rem)',
+            fontSize: 'clamp(3rem, 8vw, 6rem)',
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 200,
+            color: 'rgba(0,0,0,0.04)',
+            lineHeight: 1,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          {String(index + 1).padStart(2, '0')}
         </div>
       </motion.div>
+
+      {/* Mobile styles */}
+      <style>{`
+        @media (max-width: 768px) {
+          .project-card {
+            flex-direction: column !important;
+            background: #f8f8f8 !important;
+          }
+          .project-content {
+            flex: none !important;
+            padding: 1.5rem !important;
+            padding-bottom: 1rem !important;
+          }
+          .project-right-section {
+            flex: 1 !important;
+            display: flex !important;
+            flex-direction: column !important;
+          }
+          .project-image-section {
+            flex: 1 !important;
+            min-height: 200px !important;
+          }
+          .project-footer {
+            padding: 1rem 1.5rem !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

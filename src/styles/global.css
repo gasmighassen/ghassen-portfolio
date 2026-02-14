@@ -4,23 +4,35 @@
  */
 
 /* ========================================
+   Font Face - Heming Variable
+   ======================================== */
+@font-face {
+  font-family: 'Heming';
+  src: url('/src/assets/fonts/heming-variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ========================================
    CSS Custom Properties
    ======================================== */
 :root {
-  /* Color Palette */
-  --color-dark: #30364f;
-  --color-neutral: #acbac4;
-  --color-accent: #e1d9bc;
-  --color-light: #f0f0db;
+  /* Minimalist Black & White Palette - White BG */
+  --color-dark: #ffffff;
+  --color-neutral: #6b6b6b;
+  --color-accent: #0a0a0a;
+  --color-light: #0a0a0a;
 
-  /* Extended palette */
-  --color-dark-deeper: #1a1d2e;
-  --color-dark-mid: #3d4563;
-  --color-neutral-light: #c5cfd6;
+  /* Extended palette - grays */
+  --color-dark-deeper: #f5f5f5;
+  --color-dark-mid: #e8e8e8;
+  --color-neutral-light: #9a9a9a;
+  --color-gray-card: #f0f0f0;
 
   /* Typography */
-  --font-heading: 'Space Grotesk', -apple-system, sans-serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-heading: 'Heming', -apple-system, sans-serif;
+  --font-body: 'Heming', -apple-system, sans-serif;
 
   /* Spacing scale */
   --space-xs: 0.25rem;
@@ -117,7 +129,6 @@ a {
   width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 var(--space-xl);
 }
 
 .section {
@@ -189,7 +200,6 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-xl);
-  mix-blend-mode: difference;
 }
 
 .logo {
