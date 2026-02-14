@@ -1,7 +1,7 @@
 /**
  * Services Section
  * Microsoft AI-inspired immersive scroll-driven depth animation
- * Images emerge from depth one by one as user scrolls through the section
+ * Text cards emerge from depth one by one as user scrolls through the section
  */
 
 import {
@@ -14,54 +14,24 @@ import {
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// Original services data
+// Services data
 const services = [
-  {
-    id: 1,
-    key: 'devops',
-    image:
-      'https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=500&h=600&fit=crop',
-  },
-  {
-    id: 2,
-    key: 'web',
-    image:
-      'https://images.unsplash.com/photo-1547658719-da2b51169166?w=500&h=600&fit=crop',
-  },
-  {
-    id: 3,
-    key: 'backend',
-    image:
-      'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&h=600&fit=crop',
-  },
-  {
-    id: 4,
-    key: 'mobile',
-    image:
-      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&h=600&fit=crop',
-  },
-  {
-    id: 5,
-    key: 'maps',
-    image:
-      'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=500&h=600&fit=crop',
-  },
-  {
-    id: 6,
-    key: 'payments',
-    image:
-      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=600&fit=crop',
-  },
+  { id: 1, key: 'devops' },
+  { id: 2, key: 'web' },
+  { id: 3, key: 'backend' },
+  { id: 4, key: 'mobile' },
+  { id: 5, key: 'maps' },
+  { id: 6, key: 'payments' },
 ];
 
-// Image positions around the central text (closer to center but avoiding middle area)
-const imagePositions = [
-  { x: '18%', y: '8%', width: 260, height: 320 }, // Top left
-  { x: '62%', y: '5%', width: 240, height: 200 }, // Top right
-  { x: '16%', y: '55%', width: 240, height: 300 }, // Bottom left
-  { x: '60%', y: '52%', width: 250, height: 320 }, // Bottom right
-  { x: '22%', y: '28%', width: 220, height: 270 }, // Mid left
-  { x: '58%', y: '26%', width: 230, height: 280 }, // Mid right
+// Card positions around the central text (moved down to avoid navbar)
+const cardPositions = [
+  { x: '12%', y: '18%', width: 280, height: 160 }, // Top left
+  { x: '58%', y: '14%', width: 300, height: 150 }, // Top right
+  { x: '8%', y: '62%', width: 290, height: 160 }, // Bottom left
+  { x: '55%', y: '58%', width: 310, height: 155 }, // Bottom right
+  { x: '5%', y: '20%', width: 270, height: 150 }, // Far left top
+  { x: '70%', y: '60%', width: 280, height: 160 }, // Far right bottom
 ];
 
 // Height multiplier for scroll distance (more height = slower animation)
@@ -116,14 +86,14 @@ export function Services() {
             transformStyle: 'preserve-3d',
           }}
         >
-          {/* Floating Images - emerge from depth one by one */}
+          {/* Floating Text Cards - emerge from depth one by one */}
           {services.map((service, index) => (
-            <DepthImage
+            <DepthCard
               key={service.id}
               service={service}
               index={index}
               total={services.length}
-              position={imagePositions[index]}
+              position={cardPositions[index]}
               scrollProgress={smoothProgress}
               t={t}
             />
@@ -138,9 +108,9 @@ export function Services() {
 }
 
 /**
- * Individual image that emerges from depth based on scroll position
+ * Individual text card that emerges from depth based on scroll position
  */
-function DepthImage({
+function DepthCard({
   service,
   index,
   total,
@@ -155,12 +125,12 @@ function DepthImage({
   scrollProgress: MotionValue<number>;
   t: (key: string) => string;
 }) {
-  // Each image has its own animation window within the scroll progress
-  // They animate sequentially: image 0 starts first, image 5 starts last
-  const imageWindow = 0.6 / total; // Each image gets a portion of 60% of scroll (slower)
-  const startPoint = 0.08 + index * imageWindow; // Staggered start
-  const peakPoint = startPoint + imageWindow * 0.6; // Midpoint - fully visible (longer peak)
-  const endPoint = startPoint + imageWindow + 0.2; // End - exits forward (longer exit)
+  // Each card has its own animation window within the scroll progress
+  // They animate sequentially: card 0 starts first, card 5 starts last
+  const cardWindow = 0.6 / total; // Each card gets a portion of 60% of scroll (slower)
+  const startPoint = 0.08 + index * cardWindow; // Staggered start
+  const peakPoint = startPoint + cardWindow * 0.6; // Midpoint - fully visible (longer peak)
+  const endPoint = startPoint + cardWindow + 0.2; // End - exits forward (longer exit)
 
   // Z-axis: starts far in background, comes forward, then passes the viewer
   const z = useTransform(
@@ -203,11 +173,11 @@ function DepthImage({
     [15, 0, -8],
   );
 
-  // Slight horizontal drift as image approaches
+  // Horizontal drift - move towards center at peak for readability
   const x = useTransform(
     scrollProgress,
-    [startPoint, endPoint],
-    ['0%', index % 2 === 0 ? '-15%' : '15%'],
+    [startPoint, peakPoint, endPoint],
+    ['0%', '25%', '20%'],
   );
 
   return (
@@ -235,48 +205,35 @@ function DepthImage({
         style={{
           width: '100%',
           height: '100%',
-          borderRadius: '16px',
-          overflow: 'hidden',
-          boxShadow: '0 30px 60px rgba(0, 0, 0, 0.4)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          background: 'var(--color-dark-mid)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: '1.5rem',
         }}
       >
-        <img
-          src={service.image}
-          alt={t(`services.${service.key}.title`)}
+        <h3
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-          }}
-          loading='lazy'
-        />
-        {/* Service label overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            padding: '1.5rem',
-            background:
-              'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)',
+            fontSize: '1.125rem',
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 500,
+            color: 'var(--color-light)',
+            marginBottom: '0.5rem',
+            letterSpacing: '-0.01em',
           }}
         >
-          <span
-            style={{
-              fontSize: '1rem',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 500,
-              color: '#fff',
-              letterSpacing: '-0.01em',
-            }}
-          >
-            {t(`services.${service.key}.title`)}
-          </span>
-        </div>
+          {t(`services.${service.key}.title`)}
+        </h3>
+        <p
+          style={{
+            fontSize: '0.875rem',
+            fontFamily: 'var(--font-body)',
+            fontWeight: 300,
+            color: 'var(--color-neutral-light)',
+            lineHeight: 1.6,
+          }}
+        >
+          {t(`services.${service.key}.description`)}
+        </p>
       </div>
     </motion.div>
   );
@@ -375,7 +332,7 @@ function CentralContent({
             fontWeight: 300,
             lineHeight: 1.7,
             color: 'var(--color-neutral-light)',
-            marginBottom: '2rem',
+            marginBottom: '2.5rem',
             maxWidth: '480px',
           }}
         >
